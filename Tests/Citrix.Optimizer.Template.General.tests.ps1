@@ -1,11 +1,10 @@
 BeforeAll {
 
     # AppVeyor Testing
-    #$projectRoot = $env:APPVEYOR_BUILD_FOLDER
+    $projectRoot = $env:APPVEYOR_BUILD_FOLDER
 
     # Local Testing 
-    $projectRoot = "./"
-    $Path = "./Template/CitrixOptimizerTemplate.xml"
+    # $projectRoot = "./"
 
 }
 

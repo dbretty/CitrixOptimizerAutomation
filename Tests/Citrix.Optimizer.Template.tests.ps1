@@ -1,12 +1,12 @@
 BeforeAll {
 
     # AppVeyor Testing
-    #$manifest = "$env:APPVEYOR_BUILD_FOLDER\PSGallery\Citrix.Optimizer.Template.psd1"
-    #$module = "$env:APPVEYOR_BUILD_FOLDER\PSGallery\Citrix.Optimizer.Template.psm1"
+    $manifest = "$env:APPVEYOR_BUILD_FOLDER\PSGallery\Citrix.Optimizer.Template.psd1"
+    $module = "$env:APPVEYOR_BUILD_FOLDER\PSGallery\Citrix.Optimizer.Template.psm1"
 
     # Local Testing - Uncomment is running Pester testing locally
-    $manifest = "./PSGallery/Citrix.Optimizer.Template.psd1"
-    $module = "./PSGallery/Citrix.Optimizer.Template.psm1"
+    # $manifest = "./PSGallery/Citrix.Optimizer.Template.psd1"
+    # $module = "./PSGallery/Citrix.Optimizer.Template.psm1"
 
 }
 
