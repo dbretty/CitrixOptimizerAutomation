@@ -1,7 +1,7 @@
 BeforeAll {
 
     # AppVeyor Testing
-    $projectRoot = $env:APPVEYOR_BUILD_FOLDER
+    $projectRoot = "C:\projects\citrixoptimizer"
 
     # Local Testing 
     # $projectRoot = "./"
