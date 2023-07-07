@@ -1,16 +1,10 @@
 BeforeAll {
 
-    # AppVeyor Testing
-    $projectRoot = "C:\projects\citrixoptimizer"
-
-    # Local Testing 
-    # $projectRoot = "./"
-
 }
 
 Describe "Function validation" {
     
-    $scripts = Get-ChildItem "$projectRoot\PSGallery" -Recurse -Include *.ps1
+    $scripts = Get-ChildItem "C:\projects\citrixoptimizerautomation\CitrixOptimizerAutomation" -Recurse -Include *.ps1
     $testCase = $scripts | Foreach-Object {@{file = $_}}         
     It "Script <file> should only contain one function" -TestCases $testCase {
         param($file)   
