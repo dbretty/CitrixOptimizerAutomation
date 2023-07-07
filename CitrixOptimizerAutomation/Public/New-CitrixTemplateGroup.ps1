@@ -21,6 +21,9 @@ function New-CitrixTemplateGroup {
     .EXAMPLE
     PS> New-CitrixTemplateGroup -Path 'template.xml' -GroupName 'OS Optimizations' 
     Creates a new Group called "OS Optimizations" in the template file.
+    .EXAMPLE
+    PS> New-CitrixTemplateGroup -Path $Template.Path -GroupName 'System Optimizations' 
+    Creates a new Group called "System Optimizations" in the template file based on the result of a New-CitrixTemplate return object.
 
     .LINK
     https://github.com/dbretty/Citrix.Optimizer.Template/blob/main/Help/New-CitrixTemplateGroup.MD
@@ -58,8 +61,8 @@ process {
 
     if(Get-Template -Path $Path){
 
-        write-verbose "Template $($Path) found"
-        write-verbose "Load Template"
+        write-verbose "Citrix Optimizer Template $($Path) found"
+        write-verbose "Load Citrix Optimizer Template"
 
         # Load Template and check for existing Group"
         [XML]$xmlfile = Get-Content $Path
@@ -100,7 +103,7 @@ process {
             $Description.InnerText = $GroupDescription
             $Group.AppendChild($Description)   
         
-            write-verbose "Add Group to XML Template"
+            write-verbose "Add Group to Citrix Optimizer XML Template"
             $XMLFile.LastChild.AppendChild($Group)
             $XMLFile.Save($Path) 
     
@@ -115,8 +118,8 @@ process {
 
     } else {
 
-        write-verbose "Template not found - quitting"
-        write-error "Template not found - quitting"
+        write-verbose "Citrix Optimizer Template not found - quitting"
+        write-error "Citrix Optimizer Template not found - quitting"
 
     }
 
