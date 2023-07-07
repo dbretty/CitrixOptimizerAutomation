@@ -43,7 +43,6 @@ Update-Module -Name CitrixOptimizerAutomation -Force
 | ----------- | ----------- |
 | [New-CitrixTemplate](Help/New-CitrixTemplate.MD)      | Creates a new Citrix Optimizer base template |
 | [New-CitrixTemplateGroup](Help/New-CitrixTemplateGroup.MD)   | Creates a new Group in the Citrix Optimizer template |
-| [New-CitrixTemplateRegistry](Help/New-CitrixTemplateRegistry.MD)   | Creates a new Windows Registry definition in the Citrix Optimizer template |
 | [New-CitrixTemplateService](Help/New-CitrixTemplateService.MD)   | Creates a new Windows Service definition in the Citrix Optimizer template |
 | [New-CitrixTemplateTask](Help/New-CitrixTemplateTask.MD)   | Creates a new Windows Scheduled Task definition in the Citrix Optimizer template |
 
