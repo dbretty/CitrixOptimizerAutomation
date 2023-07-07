@@ -6,7 +6,6 @@ PowerShell module to automate the creation of Citrix Optimizer Templates using s
 
 * New-CitrixTemplate
 * New-CitrixTemplateGroup
-* New-CitrixTemplateRegistry
 * New-CitrixTemplateService
 * New-CitrixTemplateTask
 
