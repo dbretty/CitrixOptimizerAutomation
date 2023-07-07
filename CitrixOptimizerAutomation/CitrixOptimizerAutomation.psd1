@@ -30,7 +30,7 @@ CompanyName = 'bretty.me.uk'
 Copyright = '(c) David Brett. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'This is a Citrix Optimizer Template PowerShell module that will allow you to generate a template to be run from Citrix Optimizer'
+Description = 'PowerShell module to automate the creation of Citrix Optimizer Templates using simple pre-build cmdlets. Covers Services, Scheduled Tasks, Registry and Scripted Actions.'
 
 # Minimum version of the PowerShell engine required by this module
 PowerShellVersion = '5.1'
