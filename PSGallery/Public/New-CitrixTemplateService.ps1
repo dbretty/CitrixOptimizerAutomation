@@ -35,7 +35,7 @@ function New-CitrixTemplateService {
     https://github.com/dbretty/Citrix.Optimizer.Template/blob/main/Help/New-CitrixTemplateService.MD
 #>
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true)]
 
 Param (
     [Parameter(
@@ -57,7 +57,8 @@ Param (
     [Parameter(
         ValuefromPipelineByPropertyName = $true,mandatory=$true
     )]
-    [System.String]$GroupName
+    [System.String]$GroupName,
+    [Switch] $Force
 )
 
 begin {
@@ -73,75 +74,80 @@ begin {
 
 process {
 
-    if(Get-Template -Path $Path){
+    if ($Force -or $PSCmdlet.ShouldProcess())
+    {
 
-        write-verbose "Template $($Path) found"
-        write-verbose "Load Template"
+        if(Get-Template -Path $Path){
 
-        # Load Template and check for existing Group"
-        [XML]$xmlfile = Get-Content $Path
+            write-verbose "Template $($Path) found"
+            write-verbose "Load Template"
 
-        # Check that the Group specified exists
-        $Found = $false
-        foreach($Group in $XMLFile.root.group){
-            if($Group.id -eq $GroupName){
-                $Found = $true
+            # Load Template and check for existing Group"
+            [XML]$xmlfile = Get-Content $Path
+
+            # Check that the Group specified exists
+            $Found = $false
+            foreach($Group in $XMLFile.root.group){
+                if($Group.id -eq $GroupName){
+                    $Found = $true
+                }
             }
-        }
-    
-        if($Found){
-            write-verbose "Group $($GroupName) found, adding service"
+        
+            if($Found){
+                write-verbose "Group $($GroupName) found, adding service"
 
-            $Entry = $XMLFile.CreateElement("entry")
+                $Entry = $XMLFile.CreateElement("entry")
 
-                $Name = $XMLFile.CreateElement("name")
-                $Name.InnerText = $EntryName
-                $Entry.AppendChild($Name)
+                    $Name = $XMLFile.CreateElement("name")
+                    $Name.InnerText = $EntryName
+                    $Entry.AppendChild($Name)
 
-                $Description = $xmlfile.CreateElement("description")
-                $Description.InnerText = $ServiceDescription
-                $Entry.AppendChild($Description)
+                    $Description = $xmlfile.CreateElement("description")
+                    $Description.InnerText = $ServiceDescription
+                    $Entry.AppendChild($Description)
 
-                $Execute = $xmlfile.CreateElement("execute")
-                $Execute.InnerText = "1"
-                $Entry.AppendChild($Execute)
+                    $Execute = $xmlfile.CreateElement("execute")
+                    $Execute.InnerText = "1"
+                    $Entry.AppendChild($Execute)
 
-                $Action = $XMLFile.CreateElement("action")
+                    $Action = $XMLFile.CreateElement("action")
 
-                    $Plugin = $XMLFile.CreateElement("plugin")
-                    $Plugin.InnerText = "Services"
-                    $Action.AppendChild($Plugin)
+                        $Plugin = $XMLFile.CreateElement("plugin")
+                        $Plugin.InnerText = "Services"
+                        $Action.AppendChild($Plugin)
 
-                    $Params = $XMLFile.CreateElement("params")
+                        $Params = $XMLFile.CreateElement("params")
 
-                        $ParamName = $XMLFile.CreateElement("name")
-                        $ParamName.InnerText = $ServiceName
-                        $Params.AppendChild($ParamName)
+                            $ParamName = $XMLFile.CreateElement("name")
+                            $ParamName.InnerText = $ServiceName
+                            $Params.AppendChild($ParamName)
 
-                        $ParamValue = $XMLFile.CreateElement("value")
-                        $ParamValue.InnerText = "Disabled"
-                        $Params.AppendChild($ParamValue)
+                            $ParamValue = $XMLFile.CreateElement("value")
+                            $ParamValue.InnerText = "Disabled"
+                            $Params.AppendChild($ParamValue)
 
-                    $Action.AppendChild($Params)
+                        $Action.AppendChild($Params)
 
-                $Entry.AppendChild($Action)
+                    $Entry.AppendChild($Action)
 
-            $Group.AppendChild($Entry)
+                $Group.AppendChild($Entry)
 
-            $XMLFile.Save($Path)
-            write-verbose "Service $($ServiceName) added"
-            $Return.Complete = $true
-            
+                $XMLFile.Save($Path)
+                write-verbose "Service $($ServiceName) added"
+                $Return.Complete = $true
+                
+            } else {
+
+                write-verbose "Group not found - quitting"
+                write-error "Group not found - quitting"
+
+            }
         } else {
 
-            write-verbose "Group not found - quitting"
-            write-error "Group not found - quitting"
+            write-verbose "Template not found - quitting"
+            write-error "Template not found - quitting"
 
         }
-    } else {
-
-        write-verbose "Template not found - quitting"
-        write-error "Template not found - quitting"
 
     }
 

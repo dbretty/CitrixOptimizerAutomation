@@ -1,4 +1,4 @@
-function Get-TaskDetails {
+function Get-TaskDetail {
     <#
     .SYNOPSIS
     Strips a Scheduled Task into the Path and Task Name.
@@ -16,7 +16,7 @@ function Get-TaskDetails {
     Returns a custom PSObject with the Path and TaskName values
 
     .EXAMPLE
-    PS> Get-TaskDetails TaskPath '/Microsoft/Windows/AppID'
+    PS> Get-TaskDetail TaskPath '/Microsoft/Windows/AppID'
     Decodes the Task Path passed in to a Task Path and Task Name.
 #>
 

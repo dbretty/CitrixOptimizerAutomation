@@ -32,7 +32,7 @@ function New-CitrixTemplate {
     https://github.com/dbretty/Citrix.Optimizer.Template/blob/main/Help/New-CitrixTemplate.MD
 #>
 
-[CmdletBinding()]
+[CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='Low')]
 
 Param (
     [Parameter(
@@ -50,7 +50,8 @@ Param (
     [Parameter(
         ValuefromPipelineByPropertyName = $true,mandatory=$true
     )]
-    [System.String]$Author
+    [System.String]$Author,
+    [Switch] $Force
 )
 
 begin {
@@ -66,66 +67,71 @@ begin {
 
 process {
 
-    if(!(Get-Template -Path $Path)){
+    if ($Force -or $PSCmdlet.ShouldProcess())
+    {
 
-        # Set The Formatting
-        write-verbose "Set the XML formatting"
-        $xmlsettings = New-Object System.Xml.XmlWriterSettings
-        $xmlsettings.Indent = $true
-        $xmlsettings.IndentChars = "  "
+        if(!(Get-Template -Path $Path)){
 
-        # Set the File Name Create The Document
-        write-verbose "Create Base XML Template"
-        $XmlWriter = [System.XML.XmlWriter]::Create($Path, $xmlsettings)
-
-        # Write the XML Decleration and set the XSL
-        $xmlWriter.WriteStartDocument()
-
-        # Start the Root Element
-        write-verbose "Write Root element for template"
-        $xmlWriter.WriteStartElement("root")
-        $xmlWriter.WriteAttributeString("xmlns", "xsd", $null, "http://www.w3.org/2001/XMLSchema")
-        $xmlWriter.WriteAttributeString("xmlns", "xsi", $null, "http://www.w3.org/2001/XMLSchema-instance")
-
-            # Start the Metadata Element
-            write-verbose "Write metadata element for template"
-            $xmlWriter.WriteStartElement("metadata") 
-
-            # Write Metadata details
-
-            # Get Date and GUID for metadata
-            [string]$NewGuid = New-Guid
-            $GUID = $NewGuid.ToUpper()
-            $LastUpdate = (Get-Date).ToString("MM/dd/yyyy")
-
-            # Write metadata elements to base template
-            $xmlWriter.WriteElementString("schemaversion","2.0")
-            $xmlWriter.WriteElementString("version","1.0")
-            $xmlWriter.WriteElementString("id",$GUID)
-            $xmlWriter.WriteElementString("displayname",$DisplayName)
-            $xmlWriter.WriteElementString("description",$Description)
-            $xmlWriter.WriteElementString("category","OS Optimizations")
-            $xmlWriter.WriteElementString("author",$Author)
-            $xmlWriter.WriteElementString("lastupdatedate",$LastUpdate)
-
+            # Set The Formatting
+            write-verbose "Set the XML formatting"
+            $xmlsettings = New-Object System.Xml.XmlWriterSettings
+            $xmlsettings.Indent = $true
+            $xmlsettings.IndentChars = "  "
+    
+            # Set the File Name Create The Document
+            write-verbose "Create Base XML Template"
+            $XmlWriter = [System.XML.XmlWriter]::Create($Path, $xmlsettings)
+    
+            # Write the XML Decleration and set the XSL
+            $xmlWriter.WriteStartDocument()
+    
+            # Start the Root Element
+            write-verbose "Write Root element for template"
+            $xmlWriter.WriteStartElement("root")
+            $xmlWriter.WriteAttributeString("xmlns", "xsd", $null, "http://www.w3.org/2001/XMLSchema")
+            $xmlWriter.WriteAttributeString("xmlns", "xsi", $null, "http://www.w3.org/2001/XMLSchema-instance")
+    
+                # Start the Metadata Element
+                write-verbose "Write metadata element for template"
+                $xmlWriter.WriteStartElement("metadata") 
+    
+                # Write Metadata details
+    
+                # Get Date and GUID for metadata
+                [string]$NewGuid = New-Guid
+                $GUID = $NewGuid.ToUpper()
+                $LastUpdate = (Get-Date).ToString("MM/dd/yyyy")
+    
+                # Write metadata elements to base template
+                $xmlWriter.WriteElementString("schemaversion","2.0")
+                $xmlWriter.WriteElementString("version","1.0")
+                $xmlWriter.WriteElementString("id",$GUID)
+                $xmlWriter.WriteElementString("displayname",$DisplayName)
+                $xmlWriter.WriteElementString("description",$Description)
+                $xmlWriter.WriteElementString("category","OS Optimizations")
+                $xmlWriter.WriteElementString("author",$Author)
+                $xmlWriter.WriteElementString("lastupdatedate",$LastUpdate)
+    
+                $xmlWriter.WriteEndElement() 
+    
             $xmlWriter.WriteEndElement() 
-
-        $xmlWriter.WriteEndElement() 
-
-        # End, Finalize and close the XML Document
-        $xmlWriter.WriteEndDocument()
-        $xmlWriter.Flush()
-        $xmlWriter.Close()
-        write-verbose "Base XML template created"
-
-        # Set return value
-        $Return.complete = $true
-
-    } else {
-
-        # Template already exists, write verbose and error stream
-        write-verbose "The template file $($Path) already exists"
-        write-error "The template file $($Path) already exists"
+    
+            # End, Finalize and close the XML Document
+            $xmlWriter.WriteEndDocument()
+            $xmlWriter.Flush()
+            $xmlWriter.Close()
+            write-verbose "Base XML template created"
+    
+            # Set return value
+            $Return.complete = $true
+    
+        } else {
+    
+            # Template already exists, write verbose and error stream
+            write-verbose "The template file $($Path) already exists"
+            write-error "The template file $($Path) already exists"
+    
+        }
 
     }
 
