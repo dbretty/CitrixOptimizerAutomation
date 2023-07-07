@@ -10,7 +10,7 @@ BeforeAll {
 
 Describe "General project validation" {
 
-    $scripts = Get-ChildItem "$projectRoot\PSGallery" -Recurse -Include *.ps1, *.psm1
+    $scripts = Get-ChildItem "$projectRoot\CitrixOptimizerAutomation" -Recurse -Include *.ps1, *.psm1
 
     # TestCases are splatted to the script so we need hashtables
     $testCase = $scripts | Foreach-Object {@{file = $_}}         
