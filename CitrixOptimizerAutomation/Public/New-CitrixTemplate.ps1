@@ -78,25 +78,26 @@ process {
         $xmlsettings.IndentChars = "  "
 
         # Set the File Name Create The Document
-        write-verbose "Create Base XML Template"
+        write-verbose "Create Base XML Template for Citrix Optimizer"
         $XmlWriter = [System.XML.XmlWriter]::Create($Path, $xmlsettings)
 
         # Write the XML Decleration and set the XSL
         $xmlWriter.WriteStartDocument()
 
         # Start the Root Element
-        write-verbose "Write Root element for template"
+        write-verbose "Write Root element for Citrix Optimizer Template"
         $xmlWriter.WriteStartElement("root")
         $xmlWriter.WriteAttributeString("xmlns", "xsd", $null, "http://www.w3.org/2001/XMLSchema")
         $xmlWriter.WriteAttributeString("xmlns", "xsi", $null, "http://www.w3.org/2001/XMLSchema-instance")
 
             # Start the Metadata Element
-            write-verbose "Write metadata element for template"
+            write-verbose "Write metadata element  for Citrix Optimizer Template"
             $xmlWriter.WriteStartElement("metadata") 
 
             # Write Metadata details
 
             # Get Date and GUID for metadata
+            write-verbose "Get new GUID and Creation Date"
             [string]$NewGuid = New-Guid
             $GUID = $NewGuid.ToUpper()
             $LastUpdate = (Get-Date).ToString("MM/dd/yyyy")
@@ -119,7 +120,7 @@ process {
         $xmlWriter.WriteEndDocument()
         $xmlWriter.Flush()
         $xmlWriter.Close()
-        write-verbose "Base XML template created"
+        write-verbose "Base XML template for Citrix Optimizer created"
 
         # Set return value
         $Return.complete = $true

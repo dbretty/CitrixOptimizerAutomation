@@ -18,7 +18,7 @@ This function will create a new Citrix Optimizer base template with the paramete
 
 ## Examples
 
-### EXAMPLE 1
+### Example 1
 
 ```PowerShell
 New-CitrixTemplate -Path 'template.xml' -DisplayName 'Citrix Optimization Template' -Description 'This is a new Citrix Optimization template' -Author 'Dave Brett'
@@ -26,48 +26,60 @@ New-CitrixTemplate -Path 'template.xml' -DisplayName 'Citrix Optimization Templa
 
 Generates a new template file with the above values.
 
+### EXAMPLE 2
+
+```PowerShell
+$Template = New-CitrixTemplate -Path 'template.xml' -DisplayName 'Citrix Optimization Template' -Description 'This is a new Citrix Optimization template' -Author 'Dave Brett'
+```
+
+Generates a new template file with the above values and assigns the return object to the variable $Template
+
 ## Parameters
 
 ### -Path
 
-Specifies the Path and Name for the new Template
+Specifies the full Path and Name for the new Template
 
-|  | |
-|---|---|
-| Type:    | String |
-| Default Value: | None |
-| Accept pipeline input: | True |
-| Accept wildcard characters: | False |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
+| Default Value | None |
+| Accept pipeline input | True |
+| Accept wildcard characters | False |
 
 ### -DisplayName
 
-Specifies the Display Name for the new template
+Specifies the Display Name
 
-|  | |
-|---|---|
-| Type:    | String |
-| Default Value: | None |
-| Accept pipeline input: | True |
-| Accept wildcard characters: | False |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
+| Default Value | None |
+| Accept pipeline input | True |
+| Accept wildcard characters | False |
 
 ### -Description
 
-Specifies the Description for the new template
+Specifies the Description
 
-|  | |
-|---|---|
-| Type:    | String |
-| Default Value: | None |
-| Accept pipeline input: | True |
-| Accept wildcard characters: | False |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
+| Default Value | None |
+| Accept pipeline input | True |
+| Accept wildcard characters | False |
 
 ### -Author
 
-Specifies the Author for the new template
+Specifies the Author
 
-|  | |
-|---|---|
-| Type:    | String |
-| Default Value: | None |
-| Accept pipeline input: | True |
-| Accept wildcard characters: | False |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
+| Default Value | None |
+| Accept pipeline input | True |
+| Accept wildcard characters | False |
