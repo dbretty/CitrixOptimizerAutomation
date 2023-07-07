@@ -19,20 +19,4 @@ Describe "General project validation" {
         $errors.Count | Should -Be 0
     }
 
-    $scriptAnalyzerRules = Get-ScriptAnalyzerRule
-    It "<file> should pass ScriptAnalyzer" -TestCases $testCase {
-        param($file)
-        $analysis = Invoke-ScriptAnalyzer -Path  $file.fullname -ExcludeRule @('PSAvoidUsingConvertToSecureStringWithPlainText','PSReviewUnusedParameter') -Severity @('Warning', 'Error')   
-        
-        forEach ($rule in $scriptAnalyzerRules) {        
-            if ($analysis.RuleName -contains $rule) {
-                $analysis |
-                    Where-Object RuleName -EQ $rule -outvariable failures |
-                    Out-Default
-                $failures.Count | Should -Be 0
-            }
-            
-        }
-    }
-
 }

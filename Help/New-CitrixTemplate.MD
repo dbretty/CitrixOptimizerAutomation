@@ -14,7 +14,7 @@ New-CitrixTemplate
 ```
 ## Description
 
-This function will create a new Citrix Optimizer base template with the parameters passed in. It will auto generate a new GUID and Last Updated date based upon when the function is run.
+This function will create a new Citrix Optimizer base template with the parameters passed in. It will auto generate a new GUID and Last Updated date based upon the time the function is run.
 
 ## Examples
 

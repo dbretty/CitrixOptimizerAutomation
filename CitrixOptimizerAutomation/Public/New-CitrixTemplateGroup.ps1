@@ -26,7 +26,7 @@ function New-CitrixTemplateGroup {
     https://github.com/dbretty/Citrix.Optimizer.Template/blob/main/Help/New-CitrixTemplateGroup.MD
 #>
 
-[CmdletBinding(SupportsShouldProcess=$true)]
+[CmdletBinding()]
 
 Param (
     [Parameter(
@@ -40,8 +40,7 @@ Param (
     [Parameter(
         ValuefromPipelineByPropertyName = $true,mandatory=$true
     )]
-    [System.String]$GroupDescription,
-    [Switch] $Force
+    [System.String]$GroupDescription
 )
 
 begin {
@@ -57,71 +56,67 @@ begin {
 
 process {
 
-    if ($Force -or $PSCmdlet.ShouldProcess())
-    {
-        if(Get-Template -Path $Path){
+    if(Get-Template -Path $Path){
 
-            write-verbose "Template $($Path) found"
-            write-verbose "Load Template"
+        write-verbose "Template $($Path) found"
+        write-verbose "Load Template"
 
-            # Load Template and check for existing Group"
-            [XML]$xmlfile = Get-Content $Path
+        # Load Template and check for existing Group"
+        [XML]$xmlfile = Get-Content $Path
 
-            $Found = $false
-            $Count = ($xmlfile.SelectNodes('//root/group')).Count
-            write-verbose "Number of groups found: $($Count)"
+        $Found = $false
+        $Count = ($xmlfile.SelectNodes('//root/group')).Count
+        write-verbose "Number of groups found: $($Count)"
 
-            # Groups found, check if group already exists
-            if($Count -ne 0){
-                foreach($Group in $XMLFile.root.group){
-                    if($Group.id -eq $GroupName){
-                        write-verbose "Group $($GroupName) already exists"
-                        $Found = $true
-                    }
+        # Groups found, check if group already exists
+        if($Count -ne 0){
+            foreach($Group in $XMLFile.root.group){
+                if($Group.id -eq $GroupName){
+                    write-verbose "Group $($GroupName) already exists"
+                    $Found = $true
                 }
-            } else {
-                write-verbose "No existing Groups found, adding new group"
             }
-
-            if(!($Found)){
-
-                write-verbose "Create Group element"
-                $Group = $XMLFile.CreateElement("group")
-            
-                write-verbose "Create ID element"
-                $ID = $XMLFile.CreateElement("id")
-                $ID.InnerText = $GroupName
-                $Group.AppendChild($ID)   
-            
-                write-verbose "Create DisplayName element"
-                $Name = $XMLFile.CreateElement("displayname")
-                $Name.InnerText = $GroupName
-                $Group.AppendChild($Name)   
-            
-                write-verbose "Create Description element"
-                $Description = $XMLFile.CreateElement("description")
-                $Description.InnerText = $GroupDescription
-                $Group.AppendChild($Description)   
-            
-                write-verbose "Add Group to XML Template"
-                $XMLFile.LastChild.AppendChild($Group)
-                $XMLFile.Save($Path) 
-        
-                $Return.Complete = $true
-        
-            } else {
-        
-                write-verbose "Group already exists - quitting"
-                write-error "Group already exists - quitting"
-        
-            }
-
         } else {
-
-            write-verbose "Template not found - quitting"
-            write-error "Template not found - quitting"
-
+            write-verbose "No existing Groups found, adding new group"
         }
+
+        if(!($Found)){
+
+            write-verbose "Create Group element"
+            $Group = $XMLFile.CreateElement("group")
+        
+            write-verbose "Create ID element"
+            $ID = $XMLFile.CreateElement("id")
+            $ID.InnerText = $GroupName
+            $Group.AppendChild($ID)   
+        
+            write-verbose "Create DisplayName element"
+            $Name = $XMLFile.CreateElement("displayname")
+            $Name.InnerText = $GroupName
+            $Group.AppendChild($Name)   
+        
+            write-verbose "Create Description element"
+            $Description = $XMLFile.CreateElement("description")
+            $Description.InnerText = $GroupDescription
+            $Group.AppendChild($Description)   
+        
+            write-verbose "Add Group to XML Template"
+            $XMLFile.LastChild.AppendChild($Group)
+            $XMLFile.Save($Path) 
+    
+            $Return.Complete = $true
+    
+        } else {
+    
+            write-verbose "Group already exists - quitting"
+            write-error "Group already exists - quitting"
+    
+        }
+
+    } else {
+
+        write-verbose "Template not found - quitting"
+        write-error "Template not found - quitting"
 
     }
 

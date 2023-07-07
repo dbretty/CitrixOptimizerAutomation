@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+    <schemaversion>2.0</schemaversion>
+    <version>1.0</version>
+    <id>C8A321EC-52FD-48C9-9552-5E1B0179374A</id>
+    <displayname>Citrix Optimization Template</displayname>
+    <description>This is a new Citrix Optimization template</description>
+    <category>OS Optimizations</category>
+    <author>Dave Brett</author>
+    <lastupdatedate>07/07/2023</lastupdatedate>
+  </metadata>
+</root>
