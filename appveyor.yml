@@ -5,7 +5,7 @@ skip_commits:
     - README.md
 only_commits:
   files:
-    - PSGallery/
+    - CitrixOptimizerAutomation/
 pull_requests:
   do_not_increment_build_number: true
 build_script:
