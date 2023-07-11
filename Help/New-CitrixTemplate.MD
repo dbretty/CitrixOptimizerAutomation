@@ -38,7 +38,7 @@ Generates a new template file with the above values and assigns the return objec
 
 ### -Path
 
-Specifies the full Path and Name for the new Template
+Specifies the Path and Name for the Citrix Optimizer Template
 
 | Description | Option |
 |:---|:---|

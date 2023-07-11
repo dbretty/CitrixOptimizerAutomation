@@ -19,7 +19,7 @@ This function will create a Scheduled Task Definition in the Citrix Optimizer te
 
 ## Examples
 
-### EXAMPLE 1
+### Example 1
 
 ```PowerShell
 New-CitrixTemplateTask -Path 'template.xml' -Group 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
@@ -27,26 +27,44 @@ New-CitrixTemplateTask -Path 'template.xml' -Group 'Group1' -TaskName 'SchTask -
 
 Adds an entry to disable the AppID Scheduled Task in the template file.
 
+### Example 2
+
+```PowerShell
+New-CitrixTemplateTask -Path $Template.Path -GroupName 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+```
+
+Adds an entry to disable the AppID Scheduled Task in the template file based on the return value in $Template.Path
+
+### Example 3
+
+```PowerShell
+New-CitrixTemplateTask -Path $Template.Path -GroupName $Group.Name -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+```
+
+Adds an entry to disable the AppID Scheduled Task in the template file based on the return value in $Template.Path and $Group.Name
+
 ## Parameters
 
 ### -Path
 
-Specifies the Path and Name for the new Template
+Specifies the Path and Name for the Citrix Optimizer Template
 
-|  | |
-|---|---|
-| Type:    | String |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
 | Default Value: | None |
 | Accept pipeline input: | True |
 | Accept wildcard characters: | False |
 
 ### -GroupName
 
-Specifies the Group in the template file to add the Scheduled Task to
+Specifies the Group to add the Scheduled Task to
 
-|  | |
-|---|---|
-| Type:    | String |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
 | Default Value: | None |
 | Accept pipeline input: | True |
 | Accept wildcard characters: | False |
@@ -55,9 +73,10 @@ Specifies the Group in the template file to add the Scheduled Task to
 
 The Display Name for the Scheduled Task in Citrix Optimizer
 
-|  | |
-|---|---|
-| Type:    | String |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
 | Default Value: | None |
 | Accept pipeline input: | True |
 | Accept wildcard characters: | False |
@@ -66,9 +85,10 @@ The Display Name for the Scheduled Task in Citrix Optimizer
 
 The Full Path to the Scheduled Task
 
-|  | |
-|---|---|
-| Type:    | String |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
 | Default Value: | None |
 | Accept pipeline input: | True |
 | Accept wildcard characters: | False |
@@ -77,9 +97,10 @@ The Full Path to the Scheduled Task
 
 The Description for the Scheduled Task
 
-|  | |
-|---|---|
-| Type:    | String |
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
 | Default Value: | None |
 | Accept pipeline input: | True |
 | Accept wildcard characters: | False |

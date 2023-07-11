@@ -16,14 +16,17 @@ function New-CitrixTemplateGroup {
     This function will take inputs via pipeline as string
 
     .OUTPUTS
-    Returns $true or $false depending on the Group creation state
+    Returns $true or $false depending on the Group creation state as well as the GroupName
 
     .EXAMPLE
-    PS> New-CitrixTemplateGroup -Path 'template.xml' -GroupName 'OS Optimizations' 
+    PS> New-CitrixTemplateGroup -Path 'template.xml' -GroupName 'OS Optimizations' -GroupDescription 'This is the description for the group'
     Creates a new Group called "OS Optimizations" in the template file.
     .EXAMPLE
-    PS> New-CitrixTemplateGroup -Path $Template.Path -GroupName 'System Optimizations' 
+    PS> New-CitrixTemplateGroup -Path $Template.Path -GroupName 'System Optimizations' -GroupDescription 'This is the description for the group'
     Creates a new Group called "System Optimizations" in the template file based on the result of a New-CitrixTemplate return object.
+    .EXAMPLE
+    PS> $Group = New-CitrixTemplateGroup -Path $Template.Path -GroupName 'System Optimizations' -GroupDescription 'This is the description for the group'
+    Creates a new Group called "System Optimizations" in the template file based on the result of a New-CitrixTemplate return object and pipes this into the variable $Group.
 
     .LINK
     https://github.com/dbretty/Citrix.Optimizer.Template/blob/main/Help/New-CitrixTemplateGroup.MD
@@ -67,23 +70,9 @@ process {
         # Load Template and check for existing Group"
         [XML]$xmlfile = Get-Content $Path
 
-        $Found = $false
-        $Count = ($xmlfile.SelectNodes('//root/group')).Count
-        write-verbose "Number of groups found: $($Count)"
+        if(!(Get-TemplateGroup -Path $Path -GroupName $GroupName)){
 
-        # Groups found, check if group already exists
-        if($Count -ne 0){
-            foreach($Group in $XMLFile.root.group){
-                if($Group.id -eq $GroupName){
-                    write-verbose "Group $($GroupName) already exists"
-                    $Found = $true
-                }
-            }
-        } else {
             write-verbose "No existing Groups found, adding new group"
-        }
-
-        if(!($Found)){
 
             write-verbose "Create Group element"
             $Group = $XMLFile.CreateElement("group")
@@ -106,20 +95,21 @@ process {
             write-verbose "Add Group to Citrix Optimizer XML Template"
             $XMLFile.LastChild.AppendChild($Group)
             $XMLFile.Save($Path) 
-    
+            
+            $Return | Add-Member -MemberType NoteProperty -Name "GroupName" -Value $GroupName
             $Return.Complete = $true
     
         } else {
     
-            write-verbose "Group already exists - quitting"
-            write-error "Group already exists - quitting"
+            write-verbose "Group $($GroupName) already exists - quitting"
+            write-error "Group $($GroupName) already exists - quitting"
     
         }
 
     } else {
 
-        write-verbose "Citrix Optimizer Template not found - quitting"
-        write-error "Citrix Optimizer Template not found - quitting"
+        write-verbose "Citrix Optimizer Template $($Path) not found - quitting"
+        write-error "Citrix Optimizer Template $($Path) not found - quitting"
 
     }
 
