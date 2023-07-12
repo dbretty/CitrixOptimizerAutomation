@@ -99,8 +99,10 @@ process {
 
                 # Decode Task Path
                 $Task = Get-TaskDetail -TaskPath $TaskPath
+                write-verbose "Create Entry element"
                 $Entry = $XMLFile.CreateElement("entry")
 
+                    write-verbose "Create Name element"
                     $Name = $XMLFile.CreateElement("name")
                     $Name.InnerText = $TaskName
                     $Entry.AppendChild($Name)
@@ -113,6 +115,7 @@ process {
                     $Execute.InnerText = "1"
                     $Entry.AppendChild($Execute)
 
+                    write-verbose "Create Action element"
                     $Action = $XMLFile.CreateElement("action")
 
                         $Plugin = $XMLFile.CreateElement("plugin")
@@ -145,8 +148,8 @@ process {
 
             } else {
 
-                write-verbose "Entry $($EntryName) already found - quitting"
-                write-error "Entry $($EntryName) already found - quitting"
+                write-verbose "Entry $($TaskName) already found - quitting"
+                write-error "Entry $($TaskName) already found - quitting"
 
             }
 

@@ -27,3 +27,18 @@ New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -T
 New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - OfficeUpdate' -TaskPath '\Microsoft\Windows\Office\Update\' -TaskDescription 'This is the Office Update Scheduled Task'
 New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - Microsoft Edge Update' -TaskPath '\Microsoft\Edge\Update\' -TaskDescription 'This is the Microsoft Edge Update Scheduled Task'
 
+# Create Registry Values
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Add Edge Update Registry Entry' -EntryDescription 'Disable Edge Updates via HKLM' -ItemName 'UpdatesEnabled' -ItemPath 'HKLM\Software\Microsoft\Edge' -ItemValue '0' -ItemType 'Dword'
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Add Edge Sandbox' -EntryDescription 'Enable Edge Sandbox' -ItemName 'Sandbox' -ItemPath 'HKLM\Software\Microsoft\Edge' -ItemValue 'Enabled' -ItemType 'String'
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Add Edge Extensions' -EntryDescription 'Disable Edge Extensions' -ItemName 'ExtensionsDisabled' -ItemPath 'HKLM\Software\Microsoft\Edge' -ItemValue '1' -ItemType 'Dword'
+
+# Remove Registry Values
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Item 1' -EntryDescription 'Remove Edge Item 1' -ItemName 'Item1' -ItemPath 'HKLM\Software\Microsoft\Edge' -DeleteValue
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Item 2' -EntryDescription 'Remove Edge Item 2' -ItemName 'Item2' -ItemPath 'HKLM\Software\Microsoft\Edge' -DeleteValue
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Item 3' -EntryDescription 'Remove Edge Item 3' -ItemName 'Item3' -ItemPath 'HKLM\Software\Microsoft\Edge' -DeleteValue
+
+# Remove Registry Keys
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Key 1' -EntryDescription 'Remove Edge Key 1' -ItemPath 'HKLM\Software\Microsoft\Edge1' -DeleteKey
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Key 2' -EntryDescription 'Remove Edge Key 2' -ItemPath 'HKLM\Software\Microsoft\Edge2' -DeleteKey
+New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Key 3' -EntryDescription 'Remove Edge Key 3' -ItemPath 'HKLM\Software\Microsoft\Edge3' -DeleteKey
+
