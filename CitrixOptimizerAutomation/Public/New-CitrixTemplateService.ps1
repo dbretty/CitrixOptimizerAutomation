@@ -21,6 +21,9 @@ function New-CitrixTemplateService {
     .PARAMETER GroupName
     The existing Group to add the Service to
 
+    .PARAMETER State
+    The Service State (Enabled / Disabled)
+
     .INPUTS
     This function will take inputs via pipeline as string
 
@@ -28,13 +31,13 @@ function New-CitrixTemplateService {
     Returns $true or $false depending on the Service creation state
 
     .EXAMPLE
-    PS> New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1'
+    PS> New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1' -State "Disabled"
     Adds an entry to disable the Print Spooler service in the template file.
     .EXAMPLE
-    PS> New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1'
+    PS> New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1' -State "Disabled"
     Adds an entry to disable the Print Spooler service in the template file passed in via the output from the New-CitrixTemplate cmdlet.
     .EXAMPLE
-    PS> New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName $Group.GroupName
+    PS> New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName $Group.GroupName -State "Disabled"
     Adds an entry to disable the Print Spooler service in the template file passed in via the output from the New-CitrixTemplate cmdlet and the Group Name passed in via the output $Group.GroupName.
 
     .LINK
@@ -63,7 +66,12 @@ Param (
     [Parameter(
         ValuefromPipelineByPropertyName = $true,mandatory=$true
     )]
-    [System.String]$GroupName
+    [System.String]$GroupName,
+    [Parameter(
+        ValuefromPipelineByPropertyName = $true,mandatory=$true
+    )]
+    [ValidateSet("Enabled","Disabled")]
+    $State
 )
 
 begin {
@@ -127,7 +135,7 @@ process {
                             $Params.AppendChild($ParamName)
 
                             $ParamValue = $XMLFile.CreateElement("value")
-                            $ParamValue.InnerText = "Disabled"
+                            $ParamValue.InnerText = $State
                             $Params.AppendChild($ParamValue)
 
                         $Action.AppendChild($Params)

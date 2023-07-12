@@ -21,6 +21,9 @@ function New-CitrixTemplateTask {
     .PARAMETER TaskDescription
     The Description for the Scheduled Task
 
+    .PARAMETER State
+    The Service State (Enabled / Disabled)
+
     .INPUTS
     This function will take inputs via pipeline as string
 
@@ -28,13 +31,13 @@ function New-CitrixTemplateTask {
     Returns $true or $false depending on the Scheduled Task creation state
 
     .EXAMPLE
-    PS> New-CitrixTemplateTask -Path 'template.xml' -GroupName 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+    PS> New-CitrixTemplateTask -Path 'template.xml' -GroupName 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task' -State "Disabled"
     Adds an entry to disable the AppID Scheduled Task in the template file.
     .EXAMPLE
-    PS> New-CitrixTemplateTask -Path $Template.Path -GroupName 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+    PS> New-CitrixTemplateTask -Path $Template.Path -GroupName 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task' -State "Disabled"
     Adds an entry to disable the AppID Scheduled Task in the template file based on the return value in $Template.Path
     .EXAMPLE
-    PS> New-CitrixTemplateTask -Path $Template.Path -GroupName $Group.Name -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+    PS> New-CitrixTemplateTask -Path $Template.Path -GroupName $Group.Name -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task' -State "Disabled"
     Adds an entry to disable the AppID Scheduled Task in the template file based on the return value in $Template.Path and $Group.Name
 
     .LINK
@@ -63,7 +66,12 @@ Param (
     [Parameter(
         ValuefromPipelineByPropertyName = $true,mandatory=$true
     )]
-    [System.String]$TaskDescription
+    [System.String]$TaskDescription,
+    [Parameter(
+        ValuefromPipelineByPropertyName = $true,mandatory=$true
+    )]
+    [ValidateSet("Enabled","Disabled")]
+    $State
 )
 
 begin {
@@ -130,7 +138,7 @@ process {
                             $Params.AppendChild($ParamPath)
 
                             $ParamValue = $XMLFile.CreateElement("value")
-                            $ParamValue.InnerText = "Disabled"
+                            $ParamValue.InnerText = $State
                             $Params.AppendChild($ParamValue)
 
                         $Action.AppendChild($Params)

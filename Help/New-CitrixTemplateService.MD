@@ -11,6 +11,7 @@ New-CitrixTemplateService
     [-ServiceName] <String[]>
     [-ServiceDescription] <String[]>
     [-GroupName] <String[]>
+    [-State] <String[]>
     [<CommonParameters>]
 ```
 ## Description
@@ -22,7 +23,7 @@ This function will create Service Definition in the Citrix Optimizer template.
 ### Example 1
 
 ```PowerShell
-New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1'
+New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1' -State "Disabled"
 ```
 
 Adds an entry to disable the Print Spooler service in the template file.
@@ -30,7 +31,7 @@ Adds an entry to disable the Print Spooler service in the template file.
 ### Example 2
 
 ```PowerShell
-New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1'
+New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'Group 1' -State "Disabled"
 ```
 
 Adds an entry to disable the Print Spooler service in the template file passed in via the output from the ```New-CitrixTemplate``` cmdlet.
@@ -38,7 +39,7 @@ Adds an entry to disable the Print Spooler service in the template file passed i
 ### Example 3
 
 ```PowerShell
-New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName $Group.GroupName
+New-CitrixTemplateService -Path 'template.xml' -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName $Group.GroupName -State "Disabled"
 ```
 
 Adds an entry to disable the Print Spooler service in the template file passed in via the output from the ```New-CitrixTemplate``` cmdlet and the Group Name passed in via the output $Group.GroupName.
@@ -96,6 +97,18 @@ Specifies the Service Description to add to the template
 ### -GroupName
 
 Specifies the Group to add the Service definition to
+
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
+| Default Value: | None |
+| Accept pipeline input: | True |
+| Accept wildcard characters: | False |
+
+### -State
+
+Specifies the Service State (Enabled/Disabled)
 
 | Description | Option |
 |:---|:---|
