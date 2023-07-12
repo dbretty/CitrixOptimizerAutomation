@@ -42,3 +42,5 @@ $Key = New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimi
 $Key = New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Key 2' -EntryDescription 'Remove Edge Key 2' -ItemPath 'HKLM\Software\Microsoft\Edge2' -DeleteKey -Verbose
 $Key = New-CitrixTemplateRegistry -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Remove Edge Key 3' -EntryDescription 'Remove Edge Key 3' -ItemPath 'HKLM\Software\Microsoft\Edge3' -DeleteKey -Verbose
 
+# Add Template Script Files
+$Script = New-CitrixTemplateScript -Path $Template.Path -GroupName 'System Optimizations' -EntryName 'Stop Windows Update Services' -EntryDescription 'Stops and disables the Windows Update Service' -ScriptFile './disablewu.ps1'

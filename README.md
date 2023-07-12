@@ -9,6 +9,7 @@ PowerShell module to automate the creation of Citrix Optimizer Templates using s
 * New-CitrixTemplateService
 * New-CitrixTemplateTask
 * New-CitrixTemplateRegistry
+* New-CitrixTemplateScript
 
 The reason behind creating this module is the time is takes to build up the template files using the user interface. Often customers have various CSV files and JSON files with the settings you want applied to a master image, with this module you are able to parse those files and inject the settings automatically.
 
@@ -46,6 +47,7 @@ Update-Module -Name CitrixOptimizerAutomation -Force
 | [New-CitrixTemplateService](Help/New-CitrixTemplateService.MD)   | Creates a new Windows Service definition in the Citrix Optimizer template |
 | [New-CitrixTemplateTask](Help/New-CitrixTemplateTask.MD)   | Creates a new Windows Scheduled Task definition in the Citrix Optimizer template |
 | [New-CitrixTemplateRegistry](Help/New-CitrixTemplateRegistry.MD)   | Creates a new Windows Registry definition in the Citrix Optimizer template |
+| [New-CitrixTemplateScript](Help/New-CitrixTemplateScript.MD)   | Creates a new PowerShell Script definition in the Citrix Optimizer template |
 
 ## Recommended Content
 
