@@ -1,6 +1,6 @@
 # This short PowerShell Script is used to validate the module and ensure that the commands are operational before committing back to GitHub
 # Feel free to use these examples in your own scripts to generate a Citrix Optimizer Template
-# These cmdlets are used 'as-is' and I take no responsibility for them
+# These cmdlets are used 'as-is' and I take no responsibility for them, please test before using this in a production environment
 
 # Define Template Name
 $TemplateName = 'sample-template.xml'

@@ -4,7 +4,7 @@ function New-CitrixTemplateGroup {
     Creates a new Group in the Citrix Optimizer template.
 
     .DESCRIPTION
-    This function will create a Group in the Citrix Optimizer template. First it will check if that group exists, if not it will add it.
+    This function will create a Group in the Citrix Optimizer template. First it will check if that <group> exists, if not it will add it.
     
     .PARAMETER Path
     Specifies the Path to the template file
@@ -62,6 +62,7 @@ begin {
 
 process {
 
+    # Check if the template already exists
     if(Get-Template -Path $Path){
 
         write-verbose "Citrix Optimizer Template $($Path) found"
@@ -70,37 +71,45 @@ process {
         # Load Template and check for existing Group"
         [XML]$xmlfile = Get-Content $Path
 
+        # Check that the template group does not exist
         if(!(Get-TemplateGroup -Path $Path -GroupName $GroupName)){
 
             write-verbose "No existing Groups found, adding new group"
 
+            # Create the Group element
             write-verbose "Create Group element"
             $Group = $XMLFile.CreateElement("group")
         
+            # Create the ID element
             write-verbose "Create ID element"
             $ID = $XMLFile.CreateElement("id")
             $ID.InnerText = $GroupName
             $Group.AppendChild($ID)   
         
+            # Create the display name element
             write-verbose "Create DisplayName element"
             $Name = $XMLFile.CreateElement("displayname")
             $Name.InnerText = $GroupName
             $Group.AppendChild($Name)   
         
+            # Create the description element
             write-verbose "Create Description element"
             $Description = $XMLFile.CreateElement("description")
             $Description.InnerText = $GroupDescription
             $Group.AppendChild($Description)   
         
+            # Append the group ID element to the Group and save the XML file
             write-verbose "Add Group to Citrix Optimizer XML Template"
             $XMLFile.LastChild.AppendChild($Group)
             $XMLFile.Save($Path) 
             
+            # Add the GroupName to the return object
             $Return | Add-Member -MemberType NoteProperty -Name "GroupName" -Value $GroupName
             $Return.Complete = $true
     
         } else {
-    
+            
+            # Group already exists
             write-verbose "Group $($GroupName) already exists - quitting"
             write-error "Group $($GroupName) already exists - quitting"
     
@@ -108,6 +117,7 @@ process {
 
     } else {
 
+        # Template file not found
         write-verbose "Citrix Optimizer Template $($Path) not found - quitting"
         write-error "Citrix Optimizer Template $($Path) not found - quitting"
 
@@ -117,6 +127,7 @@ process {
 
 end {
     
+    # Pass back return object
     return $Return
 
 } # end

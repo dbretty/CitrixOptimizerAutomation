@@ -87,6 +87,7 @@ begin {
 
 process {
 
+    # Check if the template already exists
     if(Get-Template -Path $Path){
 
         write-verbose "Citrix Optimizer Template $($Path) found"
@@ -95,22 +96,28 @@ process {
         # Load Template and check for existing Group"
         [XML]$xmlfile = Get-Content $Path
 
+        # Check that the Group Exists
         if(Get-TemplateGroup -Path $Path -GroupName $GroupName){
 
             write-verbose "Group $($GroupName) found"
 
+            # Check that the entry does not already exist
             if(!(Get-TemplateEntry -Path $Path -EntryName $TaskName)){
 
                 write-verbose "Scheduled Task $($TaskName) not found, adding"
 
+                # Get the Group XML details into a variable
                 $Group = $xmlfile.root.group | where-object {$_.id -eq $($GroupName)}
 
                 # Decode Task Path
                 $Task = Get-TaskDetail -TaskPath $TaskPath
+
+                # Create the Entry element
                 write-verbose "Create Entry element"
                 $Entry = $XMLFile.CreateElement("entry")
 
-                    write-verbose "Create Name element"
+                    # Create the Entry header element
+                    write-verbose "Create Name, Description and Execute element"
                     $Name = $XMLFile.CreateElement("name")
                     $Name.InnerText = $TaskName
                     $Entry.AppendChild($Name)
@@ -123,6 +130,7 @@ process {
                     $Execute.InnerText = "1"
                     $Entry.AppendChild($Execute)
 
+                    # Create the action element
                     write-verbose "Create Action element"
                     $Action = $XMLFile.CreateElement("action")
 
@@ -130,16 +138,21 @@ process {
                         $Plugin.InnerText = "SchTasks"
                         $Action.AppendChild($Plugin)
 
+                        # Create the params element
+                        write-verbose "Create Params element"
                         $Params = $XMLFile.CreateElement("params")
 
+                            # Write the Task Name
                             $ParamName = $XMLFile.CreateElement("name")
                             $ParamName.InnerText = $Task.TaskName
                             $Params.AppendChild($ParamName)
 
+                            # Write the Task Path
                             $ParamPath = $XMLFile.CreateElement("path")
                             $ParamPath.InnerText = $Task.TaskPath
                             $Params.AppendChild($ParamPath)
 
+                            # Write the desired state
                             $ParamValue = $XMLFile.CreateElement("value")
                             $ParamValue.InnerText = $State
                             $Params.AppendChild($ParamValue)
@@ -150,12 +163,14 @@ process {
 
                 $Group.AppendChild($Entry)
 
+                # Close and save the XML file
                 $XMLFile.Save($Path)
                 write-verbose "Scheduled Task $($TaskName) added"
                 $Return.Complete = $true
 
             } else {
 
+                # Entry name is already present
                 write-verbose "Entry $($TaskName) already found - quitting"
                 write-error "Entry $($TaskName) already found - quitting"
 
@@ -163,12 +178,14 @@ process {
 
         } else {
 
+            # Group was not found in template
             write-verbose "Group $($GroupName) not found - quitting"
             write-error "Group $($GroupName) not found - quitting"
 
         }
     } else {
 
+        # Template file not found
         write-verbose "Template $($Path) not found - quitting"
         write-error "Template $($Path) not found - quitting"
 
@@ -178,6 +195,7 @@ process {
 
 end {
     
+    # Pass back return object
     return $Return
 
 } # end

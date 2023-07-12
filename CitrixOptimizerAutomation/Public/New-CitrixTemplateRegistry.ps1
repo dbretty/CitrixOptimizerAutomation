@@ -109,6 +109,7 @@ begin {
 
 process {
 
+    # Check if the template already exists
     if(Get-Template -Path $Path){
 
         write-verbose "Citrix Optimizer Template $($Path) found"
@@ -117,20 +118,25 @@ process {
         # Load Template and check for existing Group"
         [XML]$xmlfile = Get-Content $Path
 
+        # Check that the Group Exists
         if(Get-TemplateGroup -Path $Path -GroupName $GroupName){
 
             write-verbose "Group $($GroupName) found"
 
+            # Check that the entry does not already exist
             if(!(Get-TemplateEntry -Path $Path -EntryName $EntryName)){
 
                 write-verbose "Registry Entry $($EntryName) not found, adding"
 
+                # Get the Group XML details into a variable
                 $Group = $xmlfile.root.group | where-object {$_.id -eq $($GroupName)}
 
+                # Create the Entry element
                 write-verbose "Create Entry element"
                 $Entry = $XMLFile.CreateElement("entry")
 
-                    write-verbose "Create Name element"
+                    # Create the Entry header element
+                    write-verbose "Create Name, Description and Execute element"
                     $Name = $XMLFile.CreateElement("name")
                     $Name.InnerText = $EntryName
                     $Entry.AppendChild($Name)
@@ -143,41 +149,52 @@ process {
                     $Execute.InnerText = "1"
                     $Entry.AppendChild($Execute)
 
+                    # Create the action element
                     write-verbose "Create Action element"
                     $Action = $XMLFile.CreateElement("action")
 
+                        # Create the plugin element
+                        write-verbose "Create Plugin element"
                         $Plugin = $XMLFile.CreateElement("plugin")
                         $Plugin.InnerText = "Registry"
                         $Action.AppendChild($Plugin)
 
+                        # Create the params element
+                        write-verbose "Create Params element"
                         $Params = $XMLFile.CreateElement("params")
 
+                            # Check if DeleteKey was passed in, if so then skip this write
                             if(!($DeleteKey)){
                                 $ParamName = $XMLFile.CreateElement("name")
                                 $ParamName.InnerText = $ItemName
                                 $Params.AppendChild($ParamName)
                             }
 
+                            # Write the Path element
                             $ParamPath = $XMLFile.CreateElement("path")
                             $ParamPath.InnerText = $ItemPath
                             $Params.AppendChild($ParamPath)
 
+                            # If DeleteValue was passed in then set the value to DeleteValue
                             if($DeleteValue){
                                 $ParamValue = $XMLFile.CreateElement("value")
                                 $ParamValue.InnerText = "CTXOE_DeleteValue"
                                 $Params.AppendChild($ParamValue)
                             } else {
+                                # If DeleteKey was passed in then set the value to DeleteKey
                                 if($DeleteKey){
                                     $ParamValue = $XMLFile.CreateElement("value")
                                     $ParamValue.InnerText = "CTXOE_DeleteKey"
                                     $Params.AppendChild($ParamValue)
                                 } else {
+                                    # Set the value to the parameter passed in
                                     $ParamValue = $XMLFile.CreateElement("value")
                                     $ParamValue.InnerText = $ItemValue
                                     $Params.AppendChild($ParamValue)
                                 }
                             }
 
+                            # If neither DeleteKey or DeleteValue was passed in then set the value type
                             if((!($DeleteValue)) -and (!($DeleteKey))){
                                 $ParamValueType = $XMLFile.CreateElement("valuetype")
                                 $ParamValueType.InnerText = $ItemType
@@ -190,12 +207,14 @@ process {
 
                 $Group.AppendChild($Entry)
 
+                # Close and save the XML file
                 $XMLFile.Save($Path)
                 write-verbose "Registry Entry $($EntryName) added"
                 $Return.Complete = $true
 
             } else {
 
+                # Entry name is already present
                 write-verbose "Entry $($EntryName) already found - quitting"
                 write-error "Entry $($EntryName) already found - quitting"
 
@@ -203,12 +222,14 @@ process {
 
         } else {
 
+            # Group was not found in template
             write-verbose "Group $($GroupName) not found - quitting"
             write-error "Group $($GroupName) not found - quitting"
 
         }
     } else {
 
+        # Template file not found
         write-verbose "Template $($Path) not found - quitting"
         write-error "Template $($Path) not found - quitting"
 
@@ -218,6 +239,7 @@ process {
 
 end {
     
+    # Pass back return object
     return $Return
 
 } # end

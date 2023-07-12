@@ -1,7 +1,3 @@
-<# INSERT HEADER ABOVE #>
-
-#Get public and private function definition files.
-
 #Requires -Version 5.1
 
 $Public  = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue )
@@ -22,4 +18,3 @@ Foreach($import in @($Public + $Private))
 }
 
 Export-ModuleMember -Function $Public.Basename
-<# INSERT FOOTER BELOW #>

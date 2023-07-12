@@ -121,7 +121,7 @@ Specifies the Item Name for Citrix Optimizer
 | Description | Option |
 |:---|:---|
 | Type    | String |
-| Mandatory    | True |
+| Mandatory    | False |
 | Default Value: | None |
 | Accept pipeline input: | True |
 | Accept wildcard characters: | False |

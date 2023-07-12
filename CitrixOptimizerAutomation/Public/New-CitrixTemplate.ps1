@@ -69,15 +69,16 @@ begin {
 
 process {
 
+    # Check if the template already exists
     if(!(Get-Template -Path $Path)){
 
-        # Set The Formatting
+        # Set the XML Formatting
         write-verbose "Set the XML formatting"
         $xmlsettings = New-Object System.Xml.XmlWriterSettings
         $xmlsettings.Indent = $true
         $xmlsettings.IndentChars = "  "
 
-        # Set the File Name Create The Document
+        # Set the XML File Name Create The Document
         write-verbose "Create Base XML Template for Citrix Optimizer"
         $XmlWriter = [System.XML.XmlWriter]::Create($Path, $xmlsettings)
 
@@ -91,7 +92,7 @@ process {
         $xmlWriter.WriteAttributeString("xmlns", "xsi", $null, "http://www.w3.org/2001/XMLSchema-instance")
 
             # Start the Metadata Element
-            write-verbose "Write metadata element  for Citrix Optimizer Template"
+            write-verbose "Write metadata element for the Citrix Optimizer Template"
             $xmlWriter.WriteStartElement("metadata") 
 
             # Write Metadata details
@@ -137,7 +138,7 @@ process {
 
 end {
 
-    # Return result
+    # Add the template path and pass back return object
     $Return | Add-Member -MemberType NoteProperty -Name "Path" -Value $Path
     return $Return
 

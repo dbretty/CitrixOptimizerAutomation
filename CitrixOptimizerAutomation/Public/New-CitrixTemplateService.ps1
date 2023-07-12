@@ -87,6 +87,7 @@ begin {
 
 process {
 
+    # Check if the template already exists
     if(Get-Template -Path $Path){
 
         write-verbose "Citrix Optimizer Template $($Path) found"
@@ -95,20 +96,25 @@ process {
         # Load Template and check for existing Group and Service"
         [XML]$xmlfile = Get-Content $Path
 
+        # Check that the Group exists
         if(Get-TemplateGroup -Path $Path -GroupName $GroupName){
 
             write-verbose "Group $($GroupName) found"
 
+            # Check the Entry is not already present
             if(!(Get-TemplateEntry -Path $Path -EntryName $EntryName)){
 
                 write-verbose "Service $($EntryName) not found, adding"
 
+                # Get the Group XML details into a variable
                 $Group = $xmlfile.root.group | where-object {$_.id -eq $($GroupName)}
                 
+                # Create the Entry element
                 write-verbose "Create Entry element"
                 $Entry = $XMLFile.CreateElement("entry")
 
-                    write-verbose "Create Name element"
+                    # Create the Entry header element
+                    write-verbose "Create Name, Description and Execute element"
                     $Name = $XMLFile.CreateElement("name")
                     $Name.InnerText = $EntryName
                     $Entry.AppendChild($Name)
@@ -121,19 +127,26 @@ process {
                     $Execute.InnerText = "1"
                     $Entry.AppendChild($Execute)
 
+                    # Create the action element
                     write-verbose "Create Action element"
                     $Action = $XMLFile.CreateElement("action")
 
+                        # Create the plugin element
+                        write-verbose "Create Plugin element"
                         $Plugin = $XMLFile.CreateElement("plugin")
                         $Plugin.InnerText = "Services"
                         $Action.AppendChild($Plugin)
 
+                        # Create the params element
+                        write-verbose "Create Params element"
                         $Params = $XMLFile.CreateElement("params")
 
+                            # Write the service name
                             $ParamName = $XMLFile.CreateElement("name")
                             $ParamName.InnerText = $ServiceName
                             $Params.AppendChild($ParamName)
 
+                            # Write the desired state
                             $ParamValue = $XMLFile.CreateElement("value")
                             $ParamValue.InnerText = $State
                             $Params.AppendChild($ParamValue)
@@ -144,6 +157,7 @@ process {
 
                 $Group.AppendChild($Entry)
 
+                # Close and save the XML file
                 $XMLFile.Save($Path)
                 write-verbose "Service $($EntryName) added"
                 $Return.Complete = $true
@@ -157,12 +171,14 @@ process {
             
         } else {
 
+            # Group was not found in template
             write-verbose "Group $($GroupName) not found - quitting"
             write-error "Group $($GroupName) not found - quitting"
 
         }
     } else {
 
+        # Template file not found
         write-verbose "Template $($Path) not found - quitting"
         write-error "Template $($Path) not found - quitting"
 
@@ -172,6 +188,7 @@ process {
 
 end {
     
+    # Pass back return object
     return $Return
 
 } # end

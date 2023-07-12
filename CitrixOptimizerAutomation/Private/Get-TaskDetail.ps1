@@ -16,7 +16,7 @@ function Get-TaskDetail {
     Returns a custom PSObject with the Path and TaskName values
 
     .EXAMPLE
-    PS> Get-TaskDetail TaskPath '/Microsoft/Windows/AppID'
+    PS> Get-TaskDetail -TaskPath '/Microsoft/Windows/AppID'
     Decodes the Task Path passed in to a Task Path and Task Name.
 #>
 
@@ -57,6 +57,7 @@ process {
 
 end {
 
+    # Pass back return object
     return $Return
 
 } # end
