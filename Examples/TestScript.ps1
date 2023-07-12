@@ -18,12 +18,12 @@ New-CitrixTemplateGroup -Path $Template.Path -GroupName 'OS Optimizations' -Grou
 New-CitrixTemplateGroup -Path $Template.Path -GroupName 'HKLM Optimizations' -GroupDescription "HKLM Optimization Group"
 
 # Create Service Entries
-New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'System Optimizations'
-New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the AppID Service' -ServiceName 'AppID' -ServiceDescription 'AppID Service' -GroupName 'System Optimizations'
-New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Citrix Primt Management' -ServiceName 'CpSvc' -ServiceDescription 'Citrix Print Service' -GroupName 'System Optimizations'
+New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Print Spooler' -ServiceName 'spooler' -ServiceDescription 'Windows Print Service' -GroupName 'System Optimizations' -State "Disabled"
+New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the AppID Service' -ServiceName 'AppID' -ServiceDescription 'AppID Service' -GroupName 'System Optimizations' -State "Disabled"
+New-CitrixTemplateService -Path $Template.Path -EntryName 'Disable the Citrix Primt Management' -ServiceName 'CpSvc' -ServiceDescription 'Citrix Print Service' -GroupName 'System Optimizations' -State "Disabled"
 
 # Create Scheduled Task Entries
-New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
-New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - OfficeUpdate' -TaskPath '\Microsoft\Windows\Office\Update\' -TaskDescription 'This is the Office Update Scheduled Task'
-New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - Microsoft Edge Update' -TaskPath '\Microsoft\Edge\Update\' -TaskDescription 'This is the Microsoft Edge Update Scheduled Task'
+New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task' -State "Disabled"
+New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - OfficeUpdate' -TaskPath '\Microsoft\Windows\Office\Update\' -TaskDescription 'This is the Office Update Scheduled Task' -State "Disabled"
+New-CitrixTemplateTask -Path $Template.Path -GroupName 'System Optimizations' -TaskName 'SchTask - Microsoft Edge Update' -TaskPath '\Microsoft\Edge\Update\' -TaskDescription 'This is the Microsoft Edge Update Scheduled Task' -State "Disabled"
 

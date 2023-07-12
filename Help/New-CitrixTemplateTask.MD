@@ -11,6 +11,7 @@ New-CitrixTemplateTask
     [-TaskName] <String[]>
     [-TaskPath] <String[]>
     [-TaskDescription] <String[]>
+    [-State] <String[]>
     [<CommonParameters>]
 ```
 ## Description
@@ -22,7 +23,7 @@ This function will create a Scheduled Task Definition in the Citrix Optimizer te
 ### Example 1
 
 ```PowerShell
-New-CitrixTemplateTask -Path 'template.xml' -Group 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+New-CitrixTemplateTask -Path 'template.xml' -Group 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task' -State "Disabled"
 ```
 
 Adds an entry to disable the AppID Scheduled Task in the template file.
@@ -30,7 +31,7 @@ Adds an entry to disable the AppID Scheduled Task in the template file.
 ### Example 2
 
 ```PowerShell
-New-CitrixTemplateTask -Path $Template.Path -GroupName 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+New-CitrixTemplateTask -Path $Template.Path -GroupName 'Group1' -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task' -State "Disabled"
 ```
 
 Adds an entry to disable the AppID Scheduled Task in the template file based on the return value in $Template.Path
@@ -38,7 +39,7 @@ Adds an entry to disable the AppID Scheduled Task in the template file based on 
 ### Example 3
 
 ```PowerShell
-New-CitrixTemplateTask -Path $Template.Path -GroupName $Group.Name -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task'
+New-CitrixTemplateTask -Path $Template.Path -GroupName $Group.Name -TaskName 'SchTask - AppID' -TaskPath '\Microsoft\Windows\AppID\' -TaskDescription 'This is the AppID Scheduled Task' -State "Disabled"
 ```
 
 Adds an entry to disable the AppID Scheduled Task in the template file based on the return value in $Template.Path and $Group.Name
@@ -96,6 +97,18 @@ The Full Path to the Scheduled Task
 ### -TaskDescription
 
 The Description for the Scheduled Task
+
+| Description | Option |
+|:---|:---|
+| Type    | String |
+| Mandatory    | True |
+| Default Value: | None |
+| Accept pipeline input: | True |
+| Accept wildcard characters: | False |
+
+### -State
+
+Specifies the Service State (Enabled/Disabled)
 
 | Description | Option |
 |:---|:---|
