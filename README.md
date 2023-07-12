@@ -39,7 +39,7 @@ Update-Module -Name CitrixOptimizerAutomation -Force
 
 ## Documentation
 
-| <div style="width:500px">Command</div>      | Description |
+| <div style="width:550px">Command</div>      | Description |
 | ----------- | ----------- |
 | [New-CitrixTemplate](Help/New-CitrixTemplate.MD)      | Creates a new Citrix Optimizer base template |
 | [New-CitrixTemplateGroup](Help/New-CitrixTemplateGroup.MD)   | Creates a new Group in the Citrix Optimizer template |
