@@ -47,12 +47,12 @@ process {
     }
 
     # Add the true return value
-    $FormattedScript = $FormattedScript + "`t`t" + '$Global' + ":CTXOE_Details = " + "Complete;`n"
+    $FormattedScript = $FormattedScript + "`t`t" + '$Global' + ":CTXOE_Details = " + """Complete"";`n"
     $FormattedScript = $FormattedScript + "`t`t" + '$Global' + ":CTXOE_Result = " + '$True;' + "`n"
     $FormattedScript = $FormattedScript + "`t} catch {`n"
 
     # Add the false return value
-    $FormattedScript = $FormattedScript + "`t`t" + '$Global' + ":CTXOE_Details = " + "Errored;`n"
+    $FormattedScript = $FormattedScript + "`t`t" + '$Global' + ":CTXOE_Details = " + """Errored"";`n"
     $FormattedScript = $FormattedScript + "`t`t" + '$Global' + ":CTXOE_Result = " + '$False;' + "`n"
     $FormattedScript = $FormattedScript + "`t}`n"
 

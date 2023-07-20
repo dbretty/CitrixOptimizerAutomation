@@ -1,7 +1,8 @@
 # bretty.me.uk Defined
 
-# Local Testing for XML File Generation
+# Local Testing for XML File Generation and Local PS1 File Testing
 *.xml
+*.ps1
 
 #VSCode
 

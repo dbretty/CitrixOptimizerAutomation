@@ -142,7 +142,6 @@ process {
 
                                 # Write the PowerShell Formatted Script
                                 $ParamValue = $XMLFile.CreateElement("value")
-                                $ParamValue.InnerText = $FinalScript
                                 $ParamValue.AppendChild($XMLFile.CreateCDataSection($FinalScript))
                                 $Params.AppendChild($ParamValue)
 

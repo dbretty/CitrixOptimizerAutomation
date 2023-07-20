@@ -41,17 +41,25 @@ begin {
 process {
 
     # Trim any Trailing \ chatacters
-    $TaskTrimmed = $TaskPath.Substring(0,$TaskPath.Length - 1)
+    if($TaskPath -notmatch '\\$'){
+        $TaskTrimmed = $TaskPath.Substring(0,$TaskPath.Length)
+    } else {
+        $TaskTrimmed = $TaskPath.Substring(0,$TaskPath.Length - 1)
+    }
     
+    if(!($TaskTrimmed.StartsWith("\"))){
+        $TaskTrimmed = "\$($TaskTrimmed)"
+    }
+
     # Get The Task Name
     $TaskName = $TaskTrimmed.Substring($TaskTrimmed.lastIndexOf('\') + 1)
 
     # Get The Task Path 
-    $TaskPath = $TaskTrimmed.Substring(0,$TaskTrimmed.lastIndexOf('\') + 1)
+    $TaskPathReturn = $TaskTrimmed.Substring(0,$TaskTrimmed.lastIndexOf('\') + 1)
 
     # Build the Return Object
     $Return | Add-Member -MemberType NoteProperty -Name "TaskName" -Value $TaskName
-    $Return | Add-Member -MemberType NoteProperty -Name "TaskPath" -Value $TaskPath
+    $Return | Add-Member -MemberType NoteProperty -Name "TaskPath" -Value $TaskPathReturn
 
 } # process
 
