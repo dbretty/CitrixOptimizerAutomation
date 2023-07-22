@@ -12,7 +12,7 @@
 RootModule = 'CitrixOptimizerAutomation.psm1'
 
 # Version number of this module.
-ModuleVersion = '2307.005'
+ModuleVersion = '2307.006'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -69,7 +69,7 @@ PowerShellVersion = '5.1'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @('New-CitrixTemplate', 'New-CitrixTemplateGroup', 'New-CitrixTemplateService', 'New-CitrixTemplateTask', 'New-CitrixTemplateRegistry', 'New-CitrixTemplateScript')
+FunctionsToExport = @('New-CitrixTemplate', 'New-CitrixTemplateGroup', 'New-CitrixTemplateService', 'New-CitrixTemplateTask', 'New-CitrixTemplateRegistry', 'New-CitrixTemplateScript', 'Get-CitrixTemplate', 'Get-CitrixTemplateGroup', 'Get-CitrixTemplateEntry', 'New-CitrixTemplateReport')
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
