@@ -12,7 +12,7 @@
 RootModule = 'CitrixOptimizerAutomation.psm1'
 
 # Version number of this module.
-ModuleVersion = '2307.006'
+ModuleVersion = '2307.007'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
