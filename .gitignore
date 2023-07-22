@@ -3,6 +3,7 @@
 # Local Testing for XML File Generation and Local PS1 File Testing
 *.xml
 *.ps1
+REPORT.MD
 
 #VSCode
 
@@ -48,3 +49,4 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
