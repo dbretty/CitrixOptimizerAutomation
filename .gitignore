@@ -2,7 +2,7 @@
 
 # Local Testing for XML File Generation and Local PS1 File Testing
 *.xml
-*.ps1
+CreateTemplate.ps1
 REPORT.MD
 
 #VSCode
